@@ -1,5 +1,5 @@
 const { Sequelize, DataTypes, Model } = require('sequelize');
-const sequelize = new Sequelize('test', 'root', '', {
+const sequelize = new Sequelize('groupomania', 'root', '', {
     host: 'localhost',
     dialect: 'mysql'
 });
@@ -44,17 +44,9 @@ const User = sequelize.define('User', {
     
 });
 
-User.associate = models => {
-    User.hasMany(models.Post, {
-        onDelete: 'cascade'
-    })
-}
 
-User.associate = models => {
-    User.hasMany(models.Comment, {
-        onDelete: 'cascade'
-    })
-}
-
+/*User.sync({force: true})
+.then(() => console.log('La table Post a été créée dans la base de donnée'))
+.catch(error => console.error('Une erreur est survenue', error));*/
 
 module.exports = User;

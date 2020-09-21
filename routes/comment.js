@@ -9,5 +9,7 @@ router.post('/create/:id' ,auth,  userCtrl.createOneComment);
 // récupération des commentaires liés au Post
 router.get('/:id', auth, userCtrl.getCommentsfromPost);
 
+// Suppression d'un commentaire 
+router.delete('/:id', auth, userCtrl.deleteOneComment);
 
 module.exports = router;

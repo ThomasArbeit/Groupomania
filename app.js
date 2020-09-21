@@ -16,7 +16,7 @@ const app = express();
 const { Sequelize, DataTypes, Model } = require('sequelize');
 const { urlencoded } = require('body-parser');
 const { addHook } = require('./models/User');
-const sequelize = new Sequelize('test', 'root', '', {
+const sequelize = new Sequelize('groupomania', 'root', '', {
     host: 'localhost',
     dialect: 'mysql'
 });

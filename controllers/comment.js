@@ -23,3 +23,9 @@ exports.createOneComment = (req, res, next) => {
     .then(() => res.status(201).json({message:'Post crée'}))
     .catch(error => res.status(400).json({error}));
 };
+
+exports.deleteOneComment = (req, res, next) => {
+    Comment.destroy({ where: {commentId: req.params.id}})
+    .then(() => res.status(200).json({message: 'Commentaire supprimé'}))
+    .catch(error => res.status(400).json({error}));
+}

@@ -13,6 +13,9 @@ router.get('/:id', auth, userCtrl.getOnePost);
 // Création d'un post 
 router.post('/create' ,auth, multer,  userCtrl.createOnePost);
 
+// Suppression d'un post 
+router.delete('/:id' , auth,  userCtrl.deleteOnePost);
+
 
 
 
