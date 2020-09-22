@@ -5,25 +5,14 @@ const sequelize = new Sequelize('groupomania', 'root', '', {
 });
 
 const User = require('../models/User');
+const Post = require('../models/Post');
 
-const Post = sequelize.define('Post', {
-    postId: {
+const Like = sequelize.define('Like', {
+    likeId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
         autoIncrement: true
-    },
-    content: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-    imageUrl: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-    likes: {
-        type: DataTypes.STRING,
-        allowNull: false,
     },
     createdAt: {
         type: DataTypes.DATE,
@@ -37,12 +26,13 @@ const Post = sequelize.define('Post', {
     }
 });
 
-Post.belongsTo(User, {foreignKey: 'creator_Id', onDelete:'cascade'});
-User.hasMany(Post, {foreignKey: 'creator_Id', onDelete:'cascade'});
+User.hasMany(Like, {foreignKey: 'liker_Id', onDelete: "cascade"});
+Like.belongsTo(User, {foreignKey: 'liker_Id', onDelete: "cascade"});
+Post.hasMany(Like, {foreignKey: "post_Id", onDelete: "cascade"});
+Like.belongsTo(Post, {foreignKey: "post_Id", onDelete: "cascade"});
 
-/*Post.sync({force: true})
-.then(() => console.log('La table Post a été créée dans la base de donnée'))
+/*Like.sync({force: true})
+.then(() => console.log('La table Like a été créée dans la base de donnée'))
 .catch(error => console.error('Une erreur est survenue', error));*/
 
-
-module.exports = Post;
+module.exports = Like;

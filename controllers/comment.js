@@ -7,7 +7,7 @@ exports.getCommentsfromPost = (req, res, next) => {
     console.log(req.params.id);
     Comment.findAll({
         where: {post_Id: req.params.id},
-        include: [{model: User, as: 'user_Id'}]
+        include: [{model: User}]
     })
     
         .then(comments => res.status(200).json(comments))
