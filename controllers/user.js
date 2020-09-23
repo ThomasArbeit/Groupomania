@@ -24,7 +24,7 @@ exports.login = (req, res, next) => {
     User.findAll({ where: { email: req.body.email }})
         .then(user => {
             if (user[0] === undefined){
-                return res.status(408).json({error: "Utilisateur non trouvé"});
+                return res.status(404).json({error: "Utilisateur non trouvé"});
             } 
             bcrypt.compare(req.body.password, user[0].password)
                 .then(valid => {
@@ -35,7 +35,7 @@ exports.login = (req, res, next) => {
                         userId: user[0].userId,
                         token: jwt.sign(
                             { userId: user[0].userId, role: user[0].role },
-                            'RANDOM_TOKEN_SECRET',
+                            process.env.SECRET_KEY,
                             { expiresIn: '24h'}
                         )
                     });

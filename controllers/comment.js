@@ -29,3 +29,16 @@ exports.deleteOneComment = (req, res, next) => {
     .then(() => res.status(200).json({message: 'Commentaire supprimé'}))
     .catch(error => res.status(400).json({error}));
 }
+
+exports.modifyOneComment = (req, res, next) => {
+    Comment.update({
+        content : req.body.content
+    },
+    {
+        where: {
+            commentId: req.params.id
+        }
+    })
+    .then(() => res.status(200).json({message: 'Commentaire modifié'}))
+    .catch(error => res.status(400).json({error}));
+}

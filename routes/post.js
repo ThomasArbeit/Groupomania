@@ -16,6 +16,9 @@ router.post('/create' ,auth, multer,  userCtrl.createOnePost);
 // Suppression d'un post 
 router.delete('/:id' , auth,  userCtrl.deleteOnePost);
 
+// Modification d'un post 
+router.post('/:id' , multer,  userCtrl.modifyOnePost);
+
 // Gestion des likes
 router.put('/:id' , auth,  userCtrl.Likes);
 

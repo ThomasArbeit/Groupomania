@@ -3,6 +3,7 @@ const Like = require('../models/Like');
 const { sequelize } = require('../models/Post');
 const Post = require('../models/Post');
 const User = require('../models/User');
+const fs = require('fs');
 
 exports.getAllPosts = (req, res, next) => {
     Post.findAll({
@@ -26,9 +27,16 @@ exports.createOnePost = (req, res, next) => {
 };
 
 exports.deleteOnePost = (req, res, next) => {
-    Post.destroy({ where: {postId: req.params.id}})
-    .then(() => res.status(200).json({message: 'Post supprimé '}))
-    .catch(error => res.status(400).json({error}));
+    Post.findAll({ where: {postId: req.params.id}})
+    .then( post => {
+        const filename = post[0].imageUrl.split('/images/')[1];
+        fs.unlink(`images/${filename}`,() => {
+            Post.destroy({ where: {postId: req.params.id}})
+            .then(() => res.status(200).json({ message: "Post supprimé ! "}))
+            .catch(error => res.status(400).json({ error }));
+        })
+    })
+    .catch(error => res.status(500).json({ error }))
 };
 
 exports.getOnePost = (req, res, next) => {
@@ -38,17 +46,43 @@ exports.getOnePost = (req, res, next) => {
 };
 
 exports.modifyOnePost = (req, res, next) => {
-    Post.update({
-        content: req.body.content,
-        imageUrl: req.body.imageUrl
-    },
-    {
-        where: {
-            postId: req.params.id
+    let PostObject;
+    console.log(req.params.id)
+    if (req.file){
+        PostObject = {
+            content: req.body.content,
+            imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
         }
-    })
-    .then(post => res.status(200).json(post))
-    .catch(error => res.status(400).json({error}));
+        Post.findAll({where: {postId: req.params.id}})
+        .then(post => {
+            const filename = post[0].imageUrl.split('/images/')[1];
+            fs.unlink(`images/${filename}`,() =>{
+                Post.update({
+                    ...PostObject
+                },
+                {
+                    where: {
+                        postId: req.params.id
+                    }
+                })
+                .then(() => res.status(200).json({message: "Votre post a été modifié !"}))
+                .catch(error => res.status(400).json({message: "Je n'ais pas pu modifier votre Post" + error}));
+            })
+        })
+        .catch(error => console.log("Je n'ai pas pu trouvé votre Post", error))
+        
+    } else {
+        Post.update({
+            content: req.body.content
+        },
+        {
+            where: {
+                postId: req.params.id
+            }
+        })
+        .then(() => res.status(200).json({message: "Votre post a été modifié !"}))
+        .catch(error => res.status(400).json({message: "Je n'ais pas pu modifier votre Post" + error}));
+    }
 };
 
 exports.Likes = (req, res, next) => {

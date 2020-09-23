@@ -1,6 +1,6 @@
 const { Sequelize, DataTypes, Model } = require('sequelize');
-const sequelize = new Sequelize('groupomania', 'root', '', {
-    host: 'localhost',
+const sequelize = new Sequelize(process.env.DATABASE, process.env.DB_USERNAME, process.env.DB_PASSWORD, {
+    host: process.env.HOST,
     dialect: 'mysql'
 });
 
@@ -21,7 +21,8 @@ const User = sequelize.define('User', {
     },
     email: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
     password:{
         type: DataTypes.STRING,

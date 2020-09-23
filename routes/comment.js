@@ -12,4 +12,7 @@ router.get('/:id', auth, userCtrl.getCommentsfromPost);
 // Suppression d'un commentaire 
 router.delete('/:id', auth, userCtrl.deleteOneComment);
 
+// Modification d'un commentaire
+router.post('/:id', auth, userCtrl.modifyOneComment);
+
 module.exports = router;
