@@ -19,6 +19,6 @@ router.get('/users/:id', auth, userCtrl.getOneUser);
 router.delete('/users/:id', userCtrl.deleteOneUser);
 
 // Modification d'un utilisateur
-router.put('/users/:id', userCtrl.modifyOneUser)
+router.post('/users/:id', userCtrl.modifyOneUser)
 
 module.exports = router;
