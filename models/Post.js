@@ -21,10 +21,6 @@ const Post = sequelize.define('Post', {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    likes: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
     createdAt: {
         type: DataTypes.DATE,
         allowNull:false,
@@ -40,9 +36,9 @@ const Post = sequelize.define('Post', {
 Post.belongsTo(User, {foreignKey: 'creator_Id', onDelete:'cascade'});
 User.hasMany(Post, {foreignKey: 'creator_Id', onDelete:'cascade'});
 
-/*Post.sync({force: true})
+/*Post.sync({alter: true})
 .then(() => console.log('La table Post a été créée dans la base de donnée'))
-.catch(error => console.error('Une erreur est survenue', error));*/
-
+.catch(error => console.error('Une erreur est survenue', error));
+*/
 
 module.exports = Post;

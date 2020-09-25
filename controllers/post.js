@@ -85,29 +85,3 @@ exports.modifyOnePost = (req, res, next) => {
     }
 };
 
-exports.Likes = (req, res, next) => {
-    console.log(req.body.likes)
-    if (req.body.likes == 1){
-        Post.update({
-            likes: sequelize.literal('likes+1')
-        },
-        {
-            where: {
-                postId: req.params.id
-            }
-        })
-        .then(() => res.status(200).json({message: 'Post liké'}))
-        .catch(error => res.status(400).json({error}));
-    } else if (req.body.likes == 0){
-        Post.update({
-            likes: sequelize.literal('likes-1')
-        },
-        {
-            where: {
-                postId: req.params.id
-            }
-        })
-        .then(() => res.status(200).json({message: 'like annulé'}))
-        .catch(error => res.status(400).json({error}));
-    }
-}

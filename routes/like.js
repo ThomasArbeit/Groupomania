@@ -3,14 +3,14 @@ const router = express.Router();
 const userCtrl = require('../controllers/like');
 const auth = require('../middleware/auth');
 
-// Création d'un like 
-router.post('/:id' ,auth,  userCtrl.createOneLike);
+// Modération des likes
+router.put('/:id', auth, userCtrl.moderateLikes)
 
-// Suppression d'un like 
-router.post('/delete/:id' ,auth,  userCtrl.deleteOneLike);
-
-// récupération des commentaires liés au Post
+// récupération des likes liés au Post
 router.get('/:id', auth, userCtrl.getLikesfromPost);
+
+// récupération du like de l'userId lié au Post
+router.post('/:id', auth, userCtrl.getOneLikefromPost);
 
 
 module.exports = router;

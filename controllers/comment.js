@@ -7,6 +7,7 @@ exports.getCommentsfromPost = (req, res, next) => {
     console.log(req.params.id);
     Comment.findAll({
         where: {post_Id: req.params.id},
+        order: sequelize.literal('(createdAt) DESC'),
         include: [{model: User}]
     })
     
