@@ -21,4 +21,7 @@ router.delete('/users/:id', userCtrl.deleteOneUser);
 // Modification d'un utilisateur
 router.post('/users/:id', userCtrl.modifyOneUser)
 
+// Vérification de l'utilisateur avec le token
+router.get('/auth', userCtrl.authenticate);
+
 module.exports = router;

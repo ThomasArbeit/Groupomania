@@ -81,3 +81,22 @@ exports.modifyOneUser = (req, res, next) => {
     .then(user => res.status(200).json(user))
     .catch(error => res.status(400).json({error}));
 }
+
+// Vérification de l'utilisateur pour accéder à l'app
+exports.authenticate = (req, res, next) => {
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(token, process.env.SECRET_KEY);
+    const userId = decodedToken.userId;
+    console.log(userId)
+    console.log("Je fais la recherche via token");
+    User.findAll({where: {userId: userId}})
+    .then(user => {
+        console.log(user[0])
+        if(user[0] == undefined){
+            res.status(450).json({message: "Vous ne pouvez pas accéder à cette page"})
+        } else {
+            res.status(200).json({message: "Ok"})
+        }
+    })
+    .catch(error => res.status(400).json({error}))
+}
