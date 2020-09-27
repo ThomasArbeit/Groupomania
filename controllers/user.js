@@ -45,18 +45,12 @@ exports.login = (req, res, next) => {
         .catch(error => res.status(400).json({error}));
 }
 
-// Récupération de tous les utilisateurs dans la table Users
-exports.getAllUsers = (req, res, next) => {
-    User.findAll()
-        .then(users => res.status(200).json(users))
-        .catch(error => res.status(404).json({error}));
-}
 
 // Récupération d'un seul utilisateur dans la table Users
 exports.getOneUser = (req, res, next) => {
     User.findAll({where : { userId: req.params.id }})
-        .then(user => res.status(200).json(user))
-        .catch(error => res.status(404).json({error}));
+    .then(user => {res.status(200).json(user)})
+    .catch(error => res.status(404).json({error}));
 }
 
 // Suppression d'un utilisateur de la base de données
@@ -78,7 +72,7 @@ exports.modifyOneUser = (req, res, next) => {
             userId: req.params.id
         }
     })
-    .then(user => res.status(200).json(user))
+    .then(user => res.status(200).json({message: "Utilisateur modifié"}))
     .catch(error => res.status(400).json({error}));
 }
 
@@ -87,13 +81,10 @@ exports.authenticate = (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1];
     const decodedToken = jwt.verify(token, process.env.SECRET_KEY);
     const userId = decodedToken.userId;
-    console.log(userId)
-    console.log("Je fais la recherche via token");
     User.findAll({where: {userId: userId}})
     .then(user => {
-        console.log(user[0])
         if(user[0] == undefined){
-            res.status(450).json({message: "Vous ne pouvez pas accéder à cette page"})
+            res.status(400).json({message: "Vous ne pouvez pas accéder à cette page"})
         } else {
             res.status(200).json({message: "Ok"})
         }
