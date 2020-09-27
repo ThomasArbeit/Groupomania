@@ -36,9 +36,9 @@ const Post = sequelize.define('Post', {
 Post.belongsTo(User, {foreignKey: 'creator_Id', onDelete:'cascade'});
 User.hasMany(Post, {foreignKey: 'creator_Id', onDelete:'cascade'});
 
-/*Post.sync({alter: true})
+Post.sync()
 .then(() => console.log('La table Post a été créée dans la base de donnée'))
 .catch(error => console.error('Une erreur est survenue', error));
-*/
+
 
 module.exports = Post;

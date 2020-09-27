@@ -46,8 +46,8 @@ const User = sequelize.define('User', {
 });
 
 
-/*User.sync({force: true})
+User.sync({force: true})
 .then(() => console.log('La table Post a été créée dans la base de donnée'))
-.catch(error => console.error('Une erreur est survenue', error));*/
+.catch(error => console.error('Une erreur est survenue', error));
 
 module.exports = User;
