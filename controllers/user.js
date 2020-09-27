@@ -72,7 +72,7 @@ exports.modifyOneUser = (req, res, next) => {
             userId: req.params.id
         }
     })
-    .then(user => res.status(200).json({message: "Utilisateur modifié"}))
+    .then(() => res.status(200).json({message: "Utilisateur modifié"}))
     .catch(error => res.status(400).json({error}));
 }
 
@@ -84,7 +84,7 @@ exports.authenticate = (req, res, next) => {
     User.findAll({where: {userId: userId}})
     .then(user => {
         if(user[0] == undefined){
-            res.status(400).json({message: "Vous ne pouvez pas accéder à cette page"})
+            res.status(401).json({message: "Vous ne pouvez pas accéder à cette page"})
         } else {
             res.status(200).json({message: "Ok"})
         }

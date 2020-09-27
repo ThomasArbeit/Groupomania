@@ -20,6 +20,6 @@ router.delete('/users/:id', auth, authUser, userCtrl.deleteOneUser);
 router.post('/users/:id', auth, authUser, userCtrl.modifyOneUser)
 
 // Vérification de l'utilisateur avec le token
-router.get('/auth', userCtrl.authenticate);
+router.get('/auth', auth , userCtrl.authenticate);
 
 module.exports = router;
