@@ -37,8 +37,8 @@ Comment.belongsTo(Post, {foreignKey: "post_Id", onDelete: "cascade"});
 
 
 
-/*Comment.sync({alter: true})
+Comment.sync()
 .then(() => console.log('La table Comment a été créée dans la base de donnée'))
-.catch(error => console.error('Une erreur est survenue', error));*/
+.catch(error => console.error('Une erreur est survenue', error));
 
 module.exports = Comment;

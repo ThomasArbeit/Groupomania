@@ -53,36 +53,11 @@ exports.moderateLikes = (req, res, next) => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 exports.getLikesfromPost = (req, res, next) => {
     console.log(req.params.id);
     Like.findAll({
         where: {post_Id: req.params.id}
     })
     .then(likes => res.status(200).json(likes))
-    .catch(error => res.status(400).json({error}));
-};
-
-exports.getOneLikefromPost = (req, res, next) => {
-    console.log(req.params.id);
-    Like.findAll({
-        where: {
-            post_Id: req.params.id,
-            liker_Id: req.body.userId
-        }
-    })
-    .then(like => res.status(200).json(like))
     .catch(error => res.status(400).json({error}));
 };
